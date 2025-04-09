@@ -4,6 +4,8 @@ import ContactsList from "./ContactsList";
 import AddContact from "./AddContact";
 import ContactDetails from "./ContactDetails";
 import EditContact from "./EditContact";
+import '@mui/material/styles'; 
+
 
 function App() {
   return (

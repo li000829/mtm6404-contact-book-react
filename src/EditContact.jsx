@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { db } from "./firebase";
+import { db } from "./db";
 
 export default function EditContact() {
   const { id } = useParams();

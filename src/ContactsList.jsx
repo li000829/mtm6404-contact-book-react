@@ -1,8 +1,8 @@
-// src/ContactsList.jsx
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "./firebase";
+import { db } from "./db";
 import { Link } from "react-router-dom";
+import { Button, Card, Typography, TextField, Box } from "@mui/material";
 
 export default function ContactsList() {
   const [contacts, setContacts] = useState([]);
@@ -16,7 +16,6 @@ export default function ContactsList() {
         id: doc.id,
         ...doc.data(),
       }));
-      console.log("Fetched contacts:", contactsData);
       contactsData.sort((a, b) => a.lastName.localeCompare(b.lastName));
       setContacts(contactsData);
     };
@@ -31,46 +30,54 @@ export default function ContactsList() {
   );
 
   return (
-    <div style={{ padding: "40px", maxWidth: "600px", margin: "auto" }}>
-      <h1 style={{ fontSize: "2.5rem", marginBottom: "20px" }}>Contact List</h1>
+    <Box sx={{ maxWidth: 600, margin: "auto", padding: 3 }}>
+      <Typography variant="h4" component="h1" gutterBottom color="primary">
+        Contact List 🌿
+      </Typography>
 
       <Link to="/add">
-        <button style={{ marginBottom: "20px" }}>Add Contact</button>
+        <Button variant="contained" color="success" sx={{ mb: 2 }}>
+          Add Contact
+        </Button>
       </Link>
 
-      <input
-        type="text"
-        placeholder="Search by name..."
+      <TextField
+        label="Search by name"
+        variant="outlined"
+        fullWidth
         value={search}
         onChange={e => setSearch(e.target.value)}
-        style={{
-          padding: "10px",
-          width: "100%",
-          fontSize: "1rem",
-          marginBottom: "30px",
-        }}
+        sx={{ mb: 3 }}
       />
 
-      <ul style={{ listStyle: "none", padding: 0 }}>
-        {filteredContacts.map(contact => (
-          <li key={contact.id} style={{
-            marginBottom: "15px",
-            padding: "12px",
-            border: "1px solid #ccc",
-            borderRadius: "8px",
-            background: "#f9f9f9"
-          }}>
-            <Link to={`/contacts/${contact.id}`} style={{ textDecoration: "none", color: "inherit" }}>
-              <strong>{contact.firstName} {contact.lastName}</strong>
-              <br />
-              <span>{contact.email}</span>
+      {filteredContacts.map(contact => (
+        <Card
+          key={contact.id}
+          sx={{
+            mb: 2,
+            p: 2,
+            boxShadow: 2,
+            backgroundColor: "#f9f9f9", // 设置背景色
+            transition: "background-color 0.3s ease, box-shadow 0.3s ease", // 平滑过渡效果
+            "&:hover": {
+              backgroundColor: "#e0e0e0", // 鼠标悬停时改变背景色
+              boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)", // 增加悬停时的阴影
+            },
+          }}
+        >
+          <Typography variant="h6">
+            <Link
+              to={`/contacts/${contact.id}`}
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              {contact.firstName} {contact.lastName}
             </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
+          </Typography>
+          <Typography variant="body2" color="textSecondary">
+            {contact.email}
+          </Typography>
+        </Card>
+      ))}
+    </Box>
   );
 }
-
-
-

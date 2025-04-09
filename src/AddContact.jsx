@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { collection, addDoc } from "firebase/firestore";
-import { db } from "./firebase";
+import { db } from "./db";
 
 export default function AddContact() {
   const [firstName, setFirstName] = useState("");
@@ -27,16 +27,22 @@ export default function AddContact() {
   };
 
   return (
-    <div style={{ padding: "40px", maxWidth: "600px", margin: "auto" }}>
-      <h1 style={{ fontSize: "2rem", marginBottom: "20px" }}>Add New Contact</h1>
+    <div className="max-w-xl mx-auto p-6">
+      <h1 className="text-3xl font-bold text-primary-dark mb-6">
+        Add New Contact
+      </h1>
 
-      <form onSubmit={handleSubmit}>
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white p-6 rounded-lg shadow space-y-4"
+      >
         <input
           type="text"
           placeholder="First Name"
           value={firstName}
           onChange={e => setFirstName(e.target.value)}
           required
+          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
         />
         <input
           type="text"
@@ -44,6 +50,7 @@ export default function AddContact() {
           value={lastName}
           onChange={e => setLastName(e.target.value)}
           required
+          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
         />
         <input
           type="email"
@@ -51,10 +58,18 @@ export default function AddContact() {
           value={email}
           onChange={e => setEmail(e.target.value)}
           required
+          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
         />
-        <button>Add Contact</button>
+
+        <button
+          type="submit"
+          className="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-md shadow"
+        >
+          Add Contact
+        </button>
       </form>
     </div>
   );
 }
+
 

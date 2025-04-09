@@ -2,7 +2,8 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { doc, getDoc, deleteDoc } from "firebase/firestore";
-import { db } from "./firebase";
+import { db } from "./db";
+import { Button, Box } from "@mui/material";
 
 export default function ContactDetails() {
   const { id } = useParams();
@@ -35,24 +36,55 @@ export default function ContactDetails() {
   if (!contact) return <p>Loading...</p>;
 
   return (
-    <div style={{ padding: "40px", maxWidth: "600px", margin: "auto" }}>
-      <h1 style={{ fontSize: "2rem", marginBottom: "20px" }}>Contact Details</h1>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "100vh",
+        padding: 4,
+        maxWidth: 600,
+        margin: "auto",
+      }}
+    >
+      <h1>Contact Details</h1>
+      <p><strong>First Name:</strong> {contact.firstName}</p>
+      <p><strong>Last Name:</strong> {contact.lastName}</p>
+      <p><strong>Email:</strong> {contact.email}</p>
 
-      <div>
-        <p><strong>First Name:</strong> {contact.firstName}</p>
-        <p><strong>Last Name:</strong> {contact.lastName}</p>
-        <p><strong>Email:</strong> {contact.email}</p>
-      </div>
-
-      <div style={{ display: "flex", gap: "10px", marginTop: "20px", justifyContent: "center" }}>
+      <Box sx={{ display: "flex", gap: 2, marginTop: 2 }}>
         <Link to={`/edit/${contact.id}`}>
-          <button className="primary">Edit</button>
+          <Button variant="contained" color="primary" sx={{ width: 100 }}>
+            Edit
+          </Button>
         </Link>
-        <button onClick={handleDelete} className="danger">Delete</button>
-        <button onClick={() => navigate("/")}>Back</button>
-      </div>
-    </div>
+
+        <Button
+          onClick={handleDelete}
+          sx={{
+            backgroundColor: "#D1A15C", // 土黄色背景
+            "&:hover": { backgroundColor: "#B88A4D" }, // 深一点的土黄色背景
+            color: "white",
+            width: 100,
+          }}
+        >
+          Delete
+        </Button>
+
+        <Button
+          onClick={() => navigate("/")}
+          sx={{
+            backgroundColor: "#4e7f96", // 设置背景色为蓝色
+            "&:hover": { backgroundColor: "#3a6274" }, // 鼠标悬停时深蓝色
+            color: "white",
+            width: 100,
+          }}
+        >
+          Back
+        </Button>
+      </Box>
+    </Box>
   );
 }
-
 
